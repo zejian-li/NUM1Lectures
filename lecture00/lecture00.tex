@@ -1,0 +1,258 @@
+%\documentclass[10pt,aspectratio=169]{beamer}
+\documentclass[10pt,aspectratio=169,handout]{beamer}
+
+\usetheme{Boadilla}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{lipsum}
+\usetheme{default}
+\usepackage{listings}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan
+}
+\lstset{language=[90]Fortran,
+	basicstyle=\small\ttfamily,
+	showtabs=false,
+	tabsize=2,      
+	keywordstyle=\color{red},
+	commentstyle=\color{green},
+	morecomment=[l]{!\ }% Comment only with space after !
+}
+
+\include{shortcuts}
+
+\begin{document}
+\author{Zejian Li \\(li.zejian@ictp.it)}
+\title{Lecture 1: Linear Regression}
+\subtitle{with least-squares fitting}
+%\logo{}
+%\institute{}
+\date{16 Oct. 2024}
+%\subject{}
+%\setbeamercovered{transparent}
+%\setbeamertemplate{navigation symbols}{}
+
+
+% ----------------------------------------------------------------
+\begin{frame}[plain]
+	\maketitle
+\end{frame}
+
+
+% ----------------------------------------------------------------
+\section{Introduction}
+
+\begin{frame}
+	\frametitle{Curve fitting - Introduction}
+	The process of constructing a parametrized function $f(\vec{x}; \vec{\beta})$ that has the best fit to a series of data points $\{(\vec{x}_i,y_i)\}_i$. \\ \pause
+	
+	\vspace{0.5pt}
+	For example...
+	\vspace{-0.5cm}
+	\begin{columns}[t]
+	\column{0.5\textwidth}
+		\begin{itemize}[<+->]
+		\item Linear regression:
+		\bea
+		f(x;\beta_1,\beta_2) = \beta_1 + \beta_2 x
+		\eea
+		\end{itemize}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\textwidth]{fig/Linear_regression.svg.png}
+		\end{figure}%
+
+		\column{0.5\textwidth}
+		\begin{itemize}[<+->]
+			
+			\item Training an AI (supervised learning):\\
+			$f(\vec{x};\vec{\beta})$ is an complicated nonlinear function (often represented as a ``neural network'') that can be trained (optimizing the parameters $\vec{\beta}$) to learn patterns in the input $\vec{x}$.
+			
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.8\textwidth]{fig/ann}
+			\end{figure}%
+		\end{itemize}
+		\end{columns}
+
+\end{frame}
+
+
+
+\begin{frame}{Curve (over-)fitting }
+	\begin{columns}
+		\column{0.3\textwidth}
+			``With four parameters I can fit an elephant, and with five I can make him wiggle his trunk.''\\
+			\quad \quad --- John von Neumann
+		\column{0.5\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\textwidth]{fig/elephant}
+		\end{figure}%
+	\begin{center}
+	 The Fermi-Neumann elephant. \\ (See \href{https://doi.org/10.1119/1.3254017}{Am. J. Phys. 1 June 2010; 78 (6): 648–649})
+	\end{center}
+
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Linear least-squares fitting}
+	The procedure for fitting a {\color{blue}linear function} by minimizing the {\color{blue} sum of the squares of the residuals} of the points from the curve.
+	\begin{columns}
+		\column{0.6\textwidth}
+			\begin{itemize}[<+->]
+				\item Input: dataset with $N$ points $\{(x_1,y_1),...,(x_N,y_N)\}$.
+				\item Assumption: errors $\varepsilon_i$ are only in $y_i$,
+				\bea
+					y_i = f(x_i) + \varepsilon_i\,,
+				\eea
+				and are normally distributed $\varepsilon\sim \ncal(0,\sigma^2\mathbb{I})$.
+				\item Linear model (the function we want to fit): 
+				\bea
+					f(x;\beta_1,\beta_2) = \beta_1+\beta_2 x\,.
+				\eea
+				\item Sum of squared residuals (the quantity to be minimized):
+				\bea
+					S_\mathrm{res} &\equiv \sum_i [y_i - f(x_i)]^2 \\
+					&= \sum_i [y_i - (\beta_1 + \beta_2 x_i)]^2\,.
+				\eea
+			\end{itemize}
+		
+		\column{0.3\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.9\textwidth]{fig/sres}
+		\end{figure}
+	\begin{center}
+		Squares of residuals
+	\end{center}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Linear least-squares fitting}
+We now minimize the sum of squared residuals:
+	\bea
+	S_\mathrm{res}(\beta_1,\beta_2) &\equiv \sum_i [y_i - f(x_i)]^2 = \sum_i [y_i - (\beta_1 + \beta_2 x_i)]^2\,.
+	\eea
+	\vspace{-0.5cm}\pause
+	\begin{itemize}[<+->]
+	\item We require the partial derivatives $\partial_{\vec{\beta}} S_\mathrm{res}$ to be zero at the minimum:
+	\bea
+		\dfrac{\partial S_\mathrm{res}}{\partial \beta_1} &= -2\sum_{i=1}^N [y_i - \beta_1 - \beta_2 x_i] = 0\,,\\
+		\dfrac{\partial S_\mathrm{res}}{\partial \beta_2} &= -2\sum_{i=1}^N [y_i - \beta_1 - \beta_2 x_i] x_i = 0\,.
+	\eea
+	\item This is a linear system for $(\beta_1,\beta_2)$ that you know how to solve with Cramer's rule (see last lecture):
+	\bea
+		\begin{bmatrix}
+			N & \Sigma_i x_i \\
+			\Sigma_i x_i & \Sigma_i x_i^2
+		\end{bmatrix}
+	\begin{bmatrix}
+		\beta_1 \\ \beta_2
+	\end{bmatrix}
+  = 
+  \begin{bmatrix}
+  	\Sigma_i y_i \\ \Sigma_i x_i y_i
+  \end{bmatrix}\quad\longrightarrow \quad\begin{bmatrix}
+  \betahat_1 \\ \betahat_2
+\end{bmatrix}
+= 		\begin{bmatrix}
+N & \Sigma_i x_i \\
+\Sigma_i x_i & \Sigma_i x_i^2
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+\Sigma_i y_i \\ \Sigma_i x_i y_i
+\end{bmatrix}\,,
+	\eea
+\item Estimator for the fit function: $\fhat(x) \equiv f(x;\betahat_1,\betahat_2)$.
+	
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quality of the fit and error estimation}
+	\begin{itemize}
+		\item Overall quality of the fit: coefficient of determination $R^2$:
+		\bea
+			R^2 \equiv 1 - \dfrac{{\color{blue}S_\mathrm{res}}}{{\color{red}S_\mathrm{tot}}}\,,\quad  {\color{red}S_\mathrm{tot}}\equiv \sum_i (y_i - \overline{y})^2\,,\quad {\color{blue} S_\mathrm{res}} \equiv \sum_i [y_i - \fhat(x_i)]^2\,,\quad \overline{y} \equiv \dfrac{1}{N}\sum_{i=1}^N y_i\,.
+		\eea
+	\end{itemize}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\textwidth]{fig/rsq}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Quality of the fit and error estimation}
+	\begin{itemize}[<+->]
+		\item Overall quality of the fit: coefficient of determination $R^2$:
+		\bea
+		R^2 \equiv 1 - \dfrac{{\color{blue}S_\mathrm{res}}}{{\color{red}S_\mathrm{tot}}}\,,\quad  {\color{red}S_\mathrm{tot}}\equiv \sum_i (y_i - \overline{y})^2\,,\quad {\color{blue} S_\mathrm{res}} = \sum_i [y_i - \fhat(x_i)]^2\,,\quad \overline{y} = \dfrac{1}{N}\sum_{i=1}^N y_i\,.
+		\eea
+		\item Estimator for the variance $\sigma^2$ of the error $\varepsilon_i = y_i - f(x_i)$:
+		\bea
+		\sigmahat^2 = \sum_{i = 1}^N\dfrac{\varepsilon_i^2}{N-2}\,.
+		\eea
+		\item Standard errors (SE) for the fit parameters:
+		\bea
+			\widehat{\mathrm{SE}}(\beta_1) = \sigmahat\sqrt{\dfrac{1}{N}+\dfrac{\overline{x}^2}{\sum_i(x_i-\overline{x})^2}}\,,\quad \widehat{\mathrm{SE}}(\beta_2) = \sigmahat\dfrac{1}{\sqrt{\sum_i(x_i-\overline{x})^2}}\,.
+		\eea
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{General case of multiple variables}
+	\begin{itemize}[<+->]
+		\item Dataset: $\{(\vec{x}_i,y_i)\}_{i=1,...,N}$ with $\vec{x}_i\in\mathbb{R}^{1\times D}$ being $D-$dimensional row vectors.
+		\item Linear model: $f(\vec{x};\vec{\beta}) = \vec{x}\vec{\beta}$ with $\vec{\beta}\in\mathbb{R}^{D\times 1}$ being the column vector of linear weights (fit parameters). The intercept can be absorbed into $\vec{\beta}$ by adding an entry of constant $1$ into $\vec{x}$.
+		\item Error assumption:
+		\bea
+			y_i = f(\vec{x}) + \varepsilon_i\,,\quad \varepsilon\sim\ncal(0,\sigma^2\mathbb{I})\,.
+		\eea
+
+		\item Notation:
+		\bea
+		\mathbf{X} \equiv \begin{bmatrix}
+			\vec{x}_1 \\
+			\vdots \\
+			\vec{x}_N
+		\end{bmatrix}\,,\quad 
+		\vec{y} \equiv  \begin{bmatrix}
+			y_1\\
+			\vdots \\
+			y_N
+		\end{bmatrix}\,.
+	\eea
+	\item Estimators for the fit parameters and their covariances:
+	\bea
+		\betahat = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\vec{y}\,,\quad \widehat{\mathrm{Var}}(\betahat) = \sigmahat^2  (\mathbf{X}^T\mathbf{X})^{-1}\,,\quad \sigmahat^2 = \sum_{i = 1}^N\dfrac{\varepsilon_i^2}{N - D}\,.
+	\eea
+	\item $N-D$ is the degree of freedom of the estimate in order to provide an unbiased estimation. Read more on Wikipedia:  \href{https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation}{Unbiased estimation of standard deviation
+	}.
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Assignment: estimate Hubble's constant}
+	In 1929, Edwin Hubble noted a remarkable linear relationship in our universe: the greater the distance $d$ to a galaxy – the larger its velocity of recession $v_r$, which shows that the universe is expanding. This phenomena is expressed as:
+	$ v_r = H_0 d $
+	known as Hubble’s Law where the slope of the best fit line through the observation data is known as the Hubble Constant (read his original paper \href{https://www.pnas.org/doi/10.1073/pnas.15.3.168}{here}!). Today, astronomers use exploding stars called Type 1A supernova to more accurately determine speeds and distances across the universe. In the text file \texttt{hubble\_data.txt} we can find a list of speeds (in km/s) and distances in (megaparsec, $1~\mathrm{parsec} \simeq 3.26~\mathrm{ly}$) for 15 Type 1A supernovae. \textbf{Write a Fortran program to perform a linear fit of the data and estimate the Hubble constant.}\\ \pause
+	\begin{itemize}[<+->]
+		\item Read the speeds and distances into two separate arrays.
+		\item Perform the fit with the linear model $ v_r(d) = \beta_1+\beta_2 d$ and print the estimates for $\beta_1$, $\beta_2$, their standard errors and the coefficient of determination $R^2$ in a text file \texttt{fit.txt}.
+		\item You can use the built-in \texttt{sum} function for the summation of arrays.
+		\item 	\textbf{Bonus question}: Perform the fit without the intercept, i.e. with the linear model $v_r(d) = \beta d$ (which is actually easier).
+	\end{itemize}
+Submit your code as \texttt{Ass09.YourLastName.f90} to \texttt{li.zejian@ictp.it} before the next lesson.
+\end{frame}
+
+% ----------------------------------------------------------------
+
+
+
+\end{document}
