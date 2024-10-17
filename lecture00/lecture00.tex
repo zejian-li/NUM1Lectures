@@ -200,7 +200,7 @@ N & \Sigma_i x_i \\
 		\eea
 		\item Standard errors (SE) for the fit parameters:
 		\bea
-			\widehat{\mathrm{SE}}(\beta_1) = \sigmahat\sqrt{\dfrac{1}{N}+\dfrac{\overline{x}^2}{\sum_i(x_i-\overline{x})^2}}\,,\quad \widehat{\mathrm{SE}}(\beta_2) = \sigmahat\dfrac{1}{\sqrt{\sum_i(x_i-\overline{x})^2}}\,.
+			\widehat{\mathrm{SE}}(\betahat_1) = \sigmahat\sqrt{\dfrac{1}{N}+\dfrac{\overline{x}^2}{\sum_i(x_i-\overline{x})^2}}\,,\quad \widehat{\mathrm{SE}}(\betahat_2) = \sigmahat\dfrac{1}{\sqrt{\sum_i(x_i-\overline{x})^2}}\,.
 		\eea
 	\end{itemize}
 
@@ -212,7 +212,7 @@ N & \Sigma_i x_i \\
 		\item Linear model: $f(\vec{x};\vec{\beta}) = \vec{x}\vec{\beta}$ with $\vec{\beta}\in\mathbb{R}^{D\times 1}$ being the column vector of linear weights (fit parameters). The intercept can be absorbed into $\vec{\beta}$ by adding an entry of constant $1$ into $\vec{x}$.
 		\item Error assumption:
 		\bea
-			y_i = f(\vec{x}) + \varepsilon_i\,,\quad \varepsilon\sim\ncal(0,\sigma^2\mathbb{I})\,.
+			y_i = f(\vec{x}_i) + \varepsilon_i\,,\quad \varepsilon\sim\ncal(0,\sigma^2\mathbb{I})\,.
 		\eea
 
 		\item Notation:
@@ -230,7 +230,7 @@ N & \Sigma_i x_i \\
 	\eea
 	\item Estimators for the fit parameters and their covariances:
 	\bea
-		\betahat = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\vec{y}\,,\quad \widehat{\mathrm{Var}}(\betahat) = \sigmahat^2  (\mathbf{X}^T\mathbf{X})^{-1}\,,\quad \sigmahat^2 = \sum_{i = 1}^N\dfrac{\varepsilon_i^2}{N - D}\,.
+		\hat{\vec{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\vec{y}\,,\quad \widehat{\mathrm{Var}}(\hat{\vec{\beta}}) = \sigmahat^2  (\mathbf{X}^T\mathbf{X})^{-1}\,,\quad \sigmahat^2 = \sum_{i = 1}^N\dfrac{\varepsilon_i^2}{N - D}\,.
 	\eea
 	\item $N-D$ is the degree of freedom of the estimate in order to provide an unbiased estimation. Read more on Wikipedia:  \href{https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation}{Unbiased estimation of standard deviation
 	}.
@@ -241,7 +241,7 @@ N & \Sigma_i x_i \\
 \begin{frame}{Assignment: estimate Hubble's constant}
 	In 1929, Edwin Hubble noted a remarkable linear relationship in our universe: the greater the distance $d$ to a galaxy – the larger its velocity of recession $v_r$, which shows that the universe is expanding. This phenomena is expressed as:
 	$ v_r = H_0 d $
-	known as Hubble’s Law where the slope of the best fit line through the observation data is known as the Hubble Constant (read his original paper \href{https://www.pnas.org/doi/10.1073/pnas.15.3.168}{here}!). Today, astronomers use exploding stars called Type 1A supernova to more accurately determine speeds and distances across the universe. In the text file \texttt{hubble\_data.txt} we can find a list of speeds (in km/s) and distances in (megaparsec, $1~\mathrm{parsec} \simeq 3.26~\mathrm{ly}$) for 15 Type 1A supernovae. \textbf{Write a Fortran program to perform a linear fit of the data and estimate the Hubble constant.}\\ \pause
+	known as Hubble’s Law where the slope of the best fit line through the observation data is known as the Hubble Constant (read his original paper \href{https://www.pnas.org/doi/10.1073/pnas.15.3.168}{here}!). Today, astronomers use exploding stars called Type 1A supernova to more accurately determine speeds and distances across the universe. In the text file \texttt{hubble\_data.txt} we can find a list of speeds (in km/s) and distances (in megaparsec, $1~\mathrm{parsec} \simeq 3.26~\mathrm{ly}$) for 15 Type 1A supernovae. \textbf{Write a Fortran program to perform a linear fit of the data and estimate the Hubble constant.}\\ \pause
 	\begin{itemize}[<+->]
 		\item Read the speeds and distances into two separate arrays.
 		\item Perform the fit with the linear model $ v_r(d) = \beta_1+\beta_2 d$ and print the estimates for $\beta_1$, $\beta_2$, their standard errors and the coefficient of determination $R^2$ in a text file \texttt{fit.txt}.
