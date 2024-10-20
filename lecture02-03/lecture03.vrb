@@ -1,0 +1,17 @@
+\label{slide:euler-code}
+\frametitle{Euler Method - Fortran Implementation Sketch}
+\begin{lstlisting}	
+subroutine euler_method(t0, x0, dt, N)
+	! ... variable declarations ...
+	x = x0
+	t = t0
+	print *, t, x          ! or, better: store in arrays
+	do i = 1, N
+		fx = f(t,x)
+		x = x + fx * dt
+		t = t + dt
+		print *, t, x        ! or, better: store in arrays
+	end do
+end subroutine euler_method
+
+\end{lstlisting}
