@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.27)  19 OCT 2024 16:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.27)  22 OCT 2024 23:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1062,16 +1062,16 @@ File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 212.
+(Font)              <14.4> on input line 214.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <14.4> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 212.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 214.
  [9
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 240.
+(Font)              <12> on input line 242.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <12> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 240.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 242.
  [10
 
 ] [11
@@ -1098,30 +1098,29 @@ Package rerunfilecheck Info: File `lecture03.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 24688 strings out of 474115
- 466045 string characters out of 5747696
- 1954190 words of memory out of 5000000
- 46481 multiletter control sequences out of 15000+600000
+ 24681 strings out of 474115
+ 465783 string characters out of 5747696
+ 1953190 words of memory out of 5000000
+ 46474 multiletter control sequences out of 15000+600000
  664781 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 128i,15n,123p,384b,1463s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 128i,15n,123p,384b,1461s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb><
 c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/texlive/2024/te
 xmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/typ
-e1/public/lm/lmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.p
-fb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/texlive/2024/
-texmf-dist/fonts/type1/public/lm/lmss10.pfb><c:/texlive/2024/texmf-dist/fonts/t
-ype1/public/lm/lmss12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lms
-s8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb><c:/texli
-ve/2024/texmf-dist/fonts/type1/public/lm/lmsso10.pfb><c:/texlive/2024/texmf-dis
-t/fonts/type1/public/lm/lmsso12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/pub
-lic/lm/lmsso8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb>
-<c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/texlive/2024/t
-exmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb>
-Output written on lecture03.pdf (12 pages, 306796 bytes).
+e1/public/lm/lmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.p
+fb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb><c:/texlive/202
+4/texmf-dist/fonts/type1/public/lm/lmss12.pfb><c:/texlive/2024/texmf-dist/fonts
+/type1/public/lm/lmss8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lm
+ssbx10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsso10.pfb><c:/te
+xlive/2024/texmf-dist/fonts/type1/public/lm/lmsso12.pfb><c:/texlive/2024/texmf-
+dist/fonts/type1/public/lm/lmsso8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/p
+ublic/lm/lmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pf
+b><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb>
+Output written on lecture03.pdf (12 pages, 285154 bytes).
 PDF statistics:
- 284 PDF objects out of 1000 (max. 8388607)
- 175 compressed objects within 2 object streams
+ 277 PDF objects out of 1000 (max. 8388607)
+ 170 compressed objects within 2 object streams
  27 named destinations out of 1000 (max. 500000)
  276 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -160,16 +160,18 @@ $$ x(t_0+\Delta t) = x(t_0) + \Delta t \cdot \eval{\dif{t}{x}}{t=t_0} + \mathcal
 \label{slide:euler-code}
 \frametitle{Euler Method - Fortran Implementation Sketch}
 \begin{lstlisting}	
-subroutine euler_method(t0, x0, dt, N)
-	! ... variable declarations ...
+subroutine euler_method(t0, x0, dt, N, tlist, xlist)
+	! ... variable declarations and allocations ...
 	x = x0
 	t = t0
-	print *, t, x          ! or, better: store in arrays 
+	tlist(1) = t
+	xlist(1) = x         
 	do i = 1, N
 		fx = f(t,x)
 		x = x + fx * dt
 		t = t + dt
-		print *, t, x        ! or, better: store in arrays
+		tlist(i+1) = t
+		xlist(i+1) = x
 	end do
 end subroutine euler_method
 
@@ -239,40 +241,26 @@ can be rewritten as the system of two first order ODEs (for the angle $x$ and th
 \end{block}
 \end{frame}
 
-
-\begin{frame}
-\frametitle{Assignment 11}
-Write a program that solves the equation of motion for the angle $x$ of a friction-less (stiff) pendulum
-$\dif[2]{t}{x} = -\sin(x)$
-using the Euler and the midpoint method:
-\pause
-\begin{itemize}
-	\item Create separate functions \texttt{fx(t,x,v)} and \texttt{fv(t,x,v)}.
-	\item Create separate subroutines \texttt{euler(t0, x0, v0, dt, N)} and \texttt{midpoint(t0, x0, v0, dt, N)}
-	\pause
-	\item The subroutines should each create a file (\texttt{euler.txt} and \texttt{midpoint.txt}) with the result of the computations in three columns: $t$, $x(t)$, $v(t)$.
-	\pause
-	\item Compute with the Euler method the dynamics for a small initial angle \texttt{euler(t0=0, x0=0.1, v0=0.0, dt=0.1, N=300)} and plot the result. Why is the result clearly unphysical?
-	\pause
-	\item Use the midpoint method to compute and plot the dynamics for a large initial angle \texttt{midpoint(t0=0, x0=3.0, v0=0.0, dt=0.1, N=300)}.
-	\item Submit the two graphs and your code as \texttt{Ass11.YourLastName.f90} to \texttt{li.zejian@ictp.it} before the next lesson.
-\end{itemize}
+\begin{frame}{Assignment 12}
+	Write a program that solves the differential equation $\frac{\mathrm{d} x}{\mathrm{d} t} = -x$ using 1) Euler and 2) midpoint methods.\pause
+	\begin{itemize}
+		\item Create separate subroutines for the two methods (see slide 7).\pause
+		\item Solve with initial conditions \texttt{x(0.0) = 1.0} and \texttt{dt=0.1, N=100} and store the results in arrays \texttt{tlist} and \texttt{xlist}.\pause
+		\item The program should create a file for each method (\texttt{euler.txt} and \texttt{midpoint.txt}) with the result in two columns: \texttt{t} and \texttt{x(t)}.\pause
+		\item Plot the result $x$ versus $t$ with your favorite plotting program.\pause
+		 
+	\end{itemize}
+\textbf{Bonus question:}
+		\begin{itemize}
+			\item Expand your subroutines and solve the equation of motion for the angle $x$ of a friction-less physical pendulum: $\frac{\mathrm{d}^2 x}{\mathrm{d} t^2} = -\sin(x)$ using the two methods, with initial conditions \texttt{t0=0, x0=1.0, v0=0.0} and \texttt{dt = 0.1, N=300}.
+		\end{itemize}
+		Submit the graphs and your code as \texttt{Ass12.YourLastName.f90} to \texttt{li.zejian@ictp.it} before the next lesson.
 \end{frame}
 
+
 \begin{frame}
-\frametitle{Hints \& Help for Assignment 11}
+\frametitle{Reminder for plotting:}
 \begin{itemize}
-	\item Build up your program step by step:
-	\pause
-	\begin{enumerate}
-		\item First implement the Euler method (code is on slide \ref{slide:euler-code}) for a single function x. Test it for $\dif{t}{x} = -x$ with $x(0.0) = 1.0$ (for which we know what the result should be).
-		\pause
-		\item Then implement the midpoint method for a single function and again test it for $\dif{t}{x} = -x$ with $x(0.0) = 1.0$.
-		\pause
-		\item Then expand your Euler subroutine for two functions $x$ and $v$ (like on slide \ref{slide:euler-system}), and test it with the equations for the pendulum.
-		\pause
-		\item Then expand your midpoint subroutine for two functions $x$ and $v$.
-	\end{enumerate}
 	\pause
 	\item You can use whatever program you like to plot the dynamics. A very simple way is to use \texttt{gnuplot}.
 	\begin{itemize}
@@ -282,7 +270,11 @@ using the Euler and the midpoint method:
 		\pause
 		\item If the file 'data.txt' has three columns $t$, $x$, and $v$, then you can plot $x(t)$ and $v(t)$ with:\\
 		\texttt{\$ gnuplot -p -e "plot for [col=2:3] 'data.txt' using 1:col with lines"}
-	\end{itemize} 
+	\end{itemize} \pause
+	\textbf{Side note:}
+	\begin{itemize}
+		\item Usually we need a much smaller \texttt{dt} to obtain reliable results. Here we use the relatively large \texttt{dt=0.1} to better compare the performance of the difference methods.
+	\end{itemize}
 \end{itemize}
 
 \end{frame}

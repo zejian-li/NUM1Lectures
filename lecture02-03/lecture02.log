@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.27)  19 OCT 2024 16:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.27)  22 OCT 2024 14:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1152,7 +1152,7 @@ ublic/lm/lmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy7.pfb
 ><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy8.pfb><c:/texlive/2024/t
 exmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/texlive/2024/texmf-dist/fonts/ty
 pe1/public/amsfonts/symbols/msam7.pfb>
-Output written on lecture02.pdf (13 pages, 708732 bytes).
+Output written on lecture02.pdf (13 pages, 708512 bytes).
 PDF statistics:
  284 PDF objects out of 1000 (max. 8388607)
  175 compressed objects within 2 object streams
