@@ -1,0 +1,194 @@
+%\documentclass[11pt,aspectratio=169]{beamer}
+\documentclass[11pt,aspectratio=169,handout]{beamer}
+
+\usetheme{Boadilla}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{lipsum}
+\usetheme{default}
+\usepackage{cancel}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan
+}
+\usepackage{amsmath}
+\usepackage{listings}
+\lstset{language=[90]Fortran,
+	basicstyle=\small\ttfamily,
+	showtabs=false,
+	tabsize=2,      
+	keywordstyle=\color{red},
+	commentstyle=\color{green},
+	morecomment=[l]{!\ }% Comment only with space after !
+}
+
+\begin{document}
+	\include{shortcuts}
+\author{Zejian Li \\(li.zejian@ictp.it)}
+\title{Lecture 2-3: Differential Equations (II)}
+%\logo{}
+%\institute{}
+\date{25. Oct. 2023}
+%\subject{}
+%\setbeamercovered{transparent}
+%\setbeamertemplate{navigation symbols}{}
+
+
+% ----------------------------------------------------------------
+\begin{frame}[plain]
+	\maketitle
+\end{frame}
+
+
+% ----------------------------------------------------------------
+\begin{frame}
+\frametitle{Last lecture}
+
+\begin{itemize}
+	\item Euler \& midpoint methosd for 1st order ODEs.
+\end{itemize}
+\begin{figure}
+	\includegraphics[width=0.7\textwidth]{fig/euler-vs-mid}
+\end{figure}
+\begin{center}
+	Solution to $\dfrac{\mathrm{d}^2 x}{\mathrm{d}t^2} = -\sin(x)$ with (a large) $dt = 0.1$.
+\end{center}
+\end{frame}
+
+\begin{frame}{Today: Verlet method for integrating Newton's equations}
+	Newton's equations for conservative system (where forces only depend on positions):
+	\bea
+		m_i \dfrac{\d^2 \vec{x}_i}{\d t^2} = -\vec{\nabla}_{\vec{x}_i}V(\{\vec{x}_j\}_j)\equiv \vec{F}_i(\{\vec{x}_j\}_j)\,,
+	\eea
+	for particles with masses $m_i$ at positions $\vec{x}_i$ and interacting via the potential $V(\vec{x}_1,\cdots,\vec{x}_N)$.\\
+	For example,\pause
+	\begin{itemize}[<+->]
+		\item Harmonic oscillator: $V(x) = \dfrac{1}{2}\omega^2 x^2$;
+		\item Newtonian gravity: $V({\vec{x}_i}) = -\dfrac{1}{2}\sum_{i\neq j} \dfrac{G m_i m_j}{| \vec{x}_i - \vec{x}_j |}$
+		\item Molecular potential
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Today: Verlet method for integrating Newton's equations}
+		Generic form of the equation:
+	\bea
+	\dfrac{\d^2 \vec{x}(t)}{\d t^2} = \vec{a}[\vec{x}(t)]\,.
+	\eea\pause
+	Idea of the algorithm:\pause
+	\begin{itemize}[<+->]
+		\item Evolve velocity for half a step: 
+		\bea
+			\vec{v}\left(t+\dfrac{1}{2}\Delta t\right) \simeq \vec{v}(t) + \dfrac{1}{2}\vec{a}[\vec{x}(t)] \Delta t\,.
+		\eea
+		\item Evolve position for a full step using the mid-point velocity:
+		\bea
+			\vec{x}(t+\Delta t) \simeq \vec{x}(t) + \vec{v}\left(t+\dfrac{1}{2}\Delta\right)\Delta t\,.
+		\eea
+		\item Evolve velocity for another half step using acceleration at updated position:
+		\bea
+			\vec{v}(t+\Delta t) \simeq 	\vec{v}\left(t+\dfrac{1}{2}\Delta t\right) + \dfrac{1}{2}\vec{a}[\vec{x}(t+\Delta t)]\Delta t\,.
+		\eea
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{In case you wonder why ...}\pause
+	Suppose (for a single particle in 1D) we want to find the dynamics of a function $\phi(t)\equiv \phi[x(t), p(t)]$ depending only on position $x$ and momentum $p = mv$.\pause\\
+	One get from Hamiltonian mechanics:
+	\bea
+		\phi(t) = \rme^{\rmi \lcal t}\phi(0)\,,\quad \rmi\lcal(\bigcdot) = \dfrac{p}{m}\cdot\dfrac{\partial(\bigcdot)}{\partial x} + F\cdot\dfrac{\partial(\bigcdot)}{\partial p}\,.
+	\eea\pause
+	\begin{itemize}[<+->]
+		\item The generator has two non-commuting parts: 
+		\bea
+			\rmi\lcal = \rmi\lcal_1 + \rmi\lcal_2\,,\quad\rmi\lcal_1(\bigcdot)\equiv\dfrac{p}{m}\cdot\dfrac{\partial(\bigcdot)}{\partial x}\,,\quad\rmi\lcal_2(\bigcdot)\equiv F\cdot\dfrac{\partial(\bigcdot)}{\partial p}\,,\quad [\rmi\lcal_1,\rmi\lcal_2]\neq 0\,.
+		\eea
+		\item \href{https://www.jstor.org/stable/2033649?seq=7}{Trotter theorm (1959)} implies:
+		\bea
+			\rme^{\rmi\lcal\Delta t} = \rme^{\rmi\lcal_2\Delta t/2}\cdot\rme^{\rmi\lcal_1\Delta t}\cdot\rme^{\rmi\lcal_2\Delta t/2} + \ocal(\Delta t^3)\,.
+		\eea
+		\item Read more here --- \href{https://www.sciencedirect.com/science/article/abs/pii/S0021999106003603}{Trotter derived algorithms for molecular dynamics with constraints: Velocity Verlet revisited}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Verlet Method: summary}
+
+\begin{columns}[c]
+	\column{0.6\textwidth}
+
+
+\begin{block}{Algorithm: velocity-Verlet Method}
+	\pause
+	\textbf{Input}: acceleration function $\vec{a}(\vec{x})$, initial values $t_0$, $\vec{x}_0$, $\vec{v}_0$ step size $\Delta t$, and final time $t_f$. 
+	\pause
+	\begin{enumerate}
+		\item set $t=t_0$, $\vec{x}=\vec{x}_0$, $\vec{v}=\vec{v}_0$. 
+	
+		\item repeat $N = \lceil t_f/t_0\rceil$ times:
+		\pause
+		\begin{itemize}
+			\item set $\vec{v} = \vec{v} + \vec{a}(\vec{x})\Delta t / 2$,
+			\pause
+			\item set $\vec{x} = \vec{x} + \vec{v}\Delta t$,
+			\pause
+			\item set  $\vec{v} = \vec{v} + \vec{a}(\vec{x})\Delta t / 2$.
+		\end{itemize}		
+	\end{enumerate}  
+	\pause
+	\textbf{Output}: the sequence of $t$, $\vec{x}$ and $\vec{v}$ approximating the solution of $\frac{\d^2 \vec{x}}{\d t^2} = \vec{a}(\vec{x})$.
+\end{block}
+\column{0.3\textwidth}
+\pause
+\begin{alertblock}{Comparison with Euler method}
+	\pause
+	\textbf{Input}: Same as left
+	\pause
+	\begin{enumerate}
+		\item Same as left
+		
+		\item repeat $N$ times:
+		\pause
+		\begin{itemize}
+			\item set $\vec{a}_t = \vec{a}(\vec{x})$,
+			\pause
+			\item set $\vec{x} = \vec{x} + \vec{v}\Delta t$,
+			\pause
+			\item set  $\vec{v} = \vec{v} + \vec{a}_t\Delta t$.
+		\end{itemize}		
+	\end{enumerate}  
+	\pause
+%	\vspace{0.5cm}
+	\textbf{Output}: the sequence of $t$, $\vec{x}$ and $\vec{v}$.
+\end{alertblock}
+
+\end{columns}
+\vspace{0.4cm}
+\begin{itemize}
+	\item Good numerical stability and other important physical properties: time reversibility and preservation of the symplectic form on phase space, at no significant additional computational cost over the simple Euler method.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Assignment 13}
+Write a \texttt{Fortran} program that solves the equation of motion for a frictionless physical pendulum (again) using the velocity-Verlet method: $\frac{\d^2 x}{\d t^2} = -\sin(x)\,.$
+
+\pause
+\begin{itemize}
+	\item You can base your program on the previous assignment (hint: see the comparison on the previous slide).
+	\item Solve with the initial conditions \texttt{t0=0, x0=1.0, v0=0.0} and \texttt{dt = 0.1, tf=30}.
+	\item The program should create a file (\texttt{verlet.txt}) with the result in three columns: \texttt{t}, \texttt{x(t)} and \texttt{v(t)}.\pause
+	\item Plot the result $x$ versus $t$ with your favorite plotting program.\pause
+\end{itemize}
+\textbf{Bonus question:}
+\begin{itemize}
+	\item Expand your subroutines and solve the equation of motion for a point mass in a gravitational field (moving in a 2D plane): $\frac{\mathrm{d}^2 \vec{x}}{\mathrm{d} t^2} = -\vec{x}/|\vec{x}|^3$ using the euler and verlet methods, with initial conditions \texttt{t0=0, x0=(/2.0, 0.0/),  v0 = (/0.0, 0.5/)} and \texttt{dt = 0.1, tf=30}. Plot the trajectory [ $x(1)$ vs $x(2)$ ] and compare the performance between the two methods.
+\end{itemize}
+Submit the graphs and your code as \texttt{Ass13.YourLastName.f90} to \texttt{li.zejian@ictp.it} before the next lesson.
+\end{frame}
+
+\end{document}

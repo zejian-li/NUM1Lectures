@@ -1,0 +1,20 @@
+\frametitle{Suggested Starting Point for Assignment 11}	
+\begin{lstlisting}	
+program qubit
+	! ... DECLARE THE INITIAL CONDITIONS AND CALL euler(...)
+	
+contains
+	
+	subroutine euler(t0,rho0,H,dt,N)
+		! ... IMPLEMENT THE EULER METHOD
+	end subroutine euler
+	
+	subroutine drho_dt(t,rho,H,res)
+		real, intent(in) :: t
+		complex, dimension(:,:), intent(in) :: rho, H
+		complex, dimension(:,:), intent(out) :: res ! result
+		res = ! ... COMPLETE THIS LINE
+	end subroutine drho_dt
+	
+end program qubit
+\end{lstlisting}
