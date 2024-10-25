@@ -55,7 +55,7 @@
 	\includegraphics[width=0.7\textwidth]{fig/euler-vs-mid}
 \end{figure}
 \begin{center}
-	Solution to $\dfrac{\mathrm{d}^2 x}{\mathrm{d}t^2} = -\sin(x)$ with (a large) $dt = 0.1$.
+	Solution to $\dfrac{\mathrm{d}^2 x}{\mathrm{d}t^2} = -\sin(x)$ with (a large) \texttt{dt = 0.1}.
 \end{center}
 \end{frame}
 
@@ -110,7 +110,7 @@
 		\bea
 			\rme^{\rmi\lcal\Delta t} = \rme^{\rmi\lcal_2\Delta t/2}\cdot\rme^{\rmi\lcal_1\Delta t}\cdot\rme^{\rmi\lcal_2\Delta t/2} + \ocal(\Delta t^3)\,.
 		\eea
-		\item Read more here --- \href{https://www.sciencedirect.com/science/article/abs/pii/S0021999106003603}{Trotter derived algorithms for molecular dynamics with constraints: Velocity Verlet revisited}.
+		\item Read more here --- \href{https://doi.org/10.1063/1.463137}{Reversible multiple time scale molecular dynamics }.
 	\end{itemize}
 \end{frame}
 
@@ -186,7 +186,7 @@ Write a \texttt{Fortran} program that solves the equation of motion for a fricti
 \end{itemize}
 \textbf{Bonus question:}
 \begin{itemize}
-	\item Expand your subroutines and solve the equation of motion for a point mass in a gravitational field (moving in a 2D plane): $\frac{\mathrm{d}^2 \vec{x}}{\mathrm{d} t^2} = -\vec{x}/|\vec{x}|^3$ using the euler and verlet methods, with initial conditions \texttt{t0=0, x0=(/2.0, 0.0/),  v0 = (/0.0, 0.5/)} and \texttt{dt = 0.1, tf=30}. Plot the trajectory [ $x(1)$ vs $x(2)$ ] and compare the performance between the two methods.
+	\item Expand your subroutines and solve the equation of motion for a point mass in a gravitational field (moving in a 2D plane): $\frac{\mathrm{d}^2 \vec{x}}{\mathrm{d} t^2} = -\vec{x}/|\vec{x}|^3$ using the Euler and verlet methods, with initial conditions \texttt{t0=0, x0=(/2.0, 0.0/),  v0 = (/0.0, 0.5/)} and \texttt{dt = 0.1, tf=30}. Plot the trajectory [ $x(1)$ vs $x(2)$ ] and compare the performance between the two methods.
 \end{itemize}
 Submit the graphs and your code as \texttt{Ass13.YourLastName.f90} to \texttt{li.zejian@ictp.it} before the next lesson.
 \end{frame}
