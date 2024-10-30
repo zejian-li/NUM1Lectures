@@ -1,0 +1,34 @@
+# N_body:
+3
+# Masses:
+1.0
+1.0
+1.0
+# x0: ( inital position vectors, should be of length N_body * 3 )
+0.97000436
+-0.24308753
+0.0
+-0.97000436
+0.24308753
+0.0
+0.0
+0.0
+0.0
+# v0: ( inital velocity vectors, should be of length N_body * 3 )
+0.466203685
+0.43236573
+0.0
+0.466203685
+0.43236573
+0.0
+-0.93240737
+-0.86473146
+0.0
+# t0:
+0.0
+# tf:
+500.0
+# dt: (integration time step)
+0.01
+# saveat: (time between saved steps)
+0.1
